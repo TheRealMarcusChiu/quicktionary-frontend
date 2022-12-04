@@ -1,0 +1,12 @@
+<div class="viewport">
+  <div class="top">
+    <app-card (click)="openDialog('yellow')" borderColor="#F5BB00" [content]="yellowContentsAvailable[yellowContentCurrentIndex]"></app-card>
+    <app-card (click)="openDialog('blue')" borderColor="blue" [content]="blueContentsAvailable[blueContentCurrentIndex]"></app-card>
+    <app-card (click)="openDialog('red')" borderColor="red" [content]="redContentsAvailable[redContentCurrentIndex]"></app-card>
+  </div>
+  <div class="bottom">
+    <div *ngFor="let p of participants">
+      <app-participant [name]="p.name" [numCardsAcquired]=p.numCardsAcquired></app-participant>
+    </div>
+  </div>
+</div>

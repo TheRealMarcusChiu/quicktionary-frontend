@@ -1,0 +1,28 @@
+@media (min-width: 800px) {
+}
+
+.viewport {
+  overflow: hidden;
+  display: grid;
+  height: 100% !important;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 50%);
+  background-color: #F5F5F5;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+}
+
+.bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
