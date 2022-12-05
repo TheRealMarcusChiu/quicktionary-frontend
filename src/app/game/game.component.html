@@ -1,8 +1,8 @@
 <div class="viewport">
   <div class="top">
-    <app-card (click)="openDialog('yellow')" borderColor="#F5BB00" [content]="yellowContentsAvailable[yellowContentCurrentIndex]"></app-card>
-    <app-card (click)="openDialog('blue')" borderColor="blue" [content]="blueContentsAvailable[blueContentCurrentIndex]"></app-card>
-    <app-card (click)="openDialog('red')" borderColor="red" [content]="redContentsAvailable[redContentCurrentIndex]"></app-card>
+    <app-card (click)="openDialog('yellow')" borderColor="#F5BB00" [content]="activeYellowCardContent"></app-card>
+    <app-card (click)="openDialog('blue')" borderColor="blue" [content]="activeBlueCardContent"></app-card>
+    <app-card (click)="openDialog('red')" borderColor="red" [content]="activeRedCardContent"></app-card>
   </div>
   <div class="bottom">
     <div *ngFor="let p of participants">

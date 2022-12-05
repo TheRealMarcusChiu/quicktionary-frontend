@@ -1,42 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { YELLOW_CONTENTS, BLUE_CONTENTS, RED_CONTENTS } from '../data/card-contents';
 import { Participant } from '../model/participant';
+import { Room } from '../model/room';
 import { WebSocketService } from '../service/web-socket.service';
+import { HttpService } from '../service/http.service';
+import { StateService } from '../service/state.service';
 import { DialogComponent } from '../dialog/dialog.component';
+
+import { environment } from '../../environments/environment';
+
+declare var SockJS: any;
+declare var Stomp: any;
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent {
 
-  participants: Participant[] = [
-    {
-      name: 'Marcus Chiu',
-      numCardsAcquired: 5
-    },
-    {
-      name: 'Jesus Christ',
-      numCardsAcquired: 5
-    }
-  ];
+  participantName: string;
 
-  yellowContentsAvailable: string[] = YELLOW_CONTENTS;
-  blueContentsAvailable: string[] = BLUE_CONTENTS;
-  redContentsAvailable: string[] = RED_CONTENTS;
+  activeYellowCardContent: string = '';
+  activeBlueCardContent: string = '';
+  activeRedCardContent: string = '';
 
-  yellowContentCurrentIndex: number = 0;
-  blueContentCurrentIndex: number = 0;
-  redContentCurrentIndex: number = 0;
+  participants: Participant[] = [];
 
   constructor(private webSocketService: WebSocketService,
+              private httpService: HttpService,
+              private stateService: StateService,
               private dialog: MatDialog) {
+    this.participantName = this.stateService.getParticipantName();
+    this.httpService.getRoom().subscribe(
+      (room: Room) => this.updateRoomState(room)
+    );
+
+    const ws = new SockJS(environment.backendUrl);
+    const stompClient = Stomp.over(ws);
+    const that = this;
+
+    stompClient.connect({}, function(frame: any) {
+      stompClient.subscribe('/topic/room-updated', (message: any) => {
+        const room: Room = JSON.parse(message.body) as Room;
+        that.updateRoomState(room);
+      });
+    });
   }
 
-  ngOnInit(): void {
+  updateRoomState(room: Room) {
+    this.activeYellowCardContent = room.activeYellowCardContent;
+    this.activeBlueCardContent = room.activeBlueCardContent;
+    this.activeRedCardContent = room.activeRedCardContent;
+    this.participants = room.participants;
   }
 
   openDialog(targetCardColorToAcquire: string) {
@@ -45,29 +62,25 @@ export class GameComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         if (targetCardColorToAcquire == 'yellow') {
-          this.acquireYellowCard();
+          this.acquireCard('YELLOW');
         } else if (targetCardColorToAcquire == 'blue') {
-          this.acquireBlueCard();
+          this.acquireCard('BLUE');
         } else if (targetCardColorToAcquire == 'red') {
-          this.acquireRedCard();
+          this.acquireCard('RED');
         }
       }
     });
   }
 
-  onSend() {
-    this.webSocketService.sendChatMessage('hello world');
-  }
-
-  acquireYellowCard() {
-    this.yellowContentCurrentIndex += 1;
-  }
-
-  acquireBlueCard() {
-    this.blueContentCurrentIndex += 1;
-  }
-
-  acquireRedCard() {
-    this.redContentCurrentIndex += 1;
+  acquireCard(cardColor: string) {
+    this.httpService.acquireCard(this.participantName, cardColor).subscribe(
+      response => {
+        if (response.success) {
+        } else {
+          alert(response.errorMessage);
+        }
+      },
+      error => alert('CRITICAL ERROR!!!')
+    );
   }
 }
