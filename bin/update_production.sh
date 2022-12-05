@@ -15,5 +15,5 @@ git push origin master -f
 
 ssh aws << EOF
   rm -rf quicktionary-frontend-build/
-  git https://github.com/TheRealMarcusChiu/quicktionary-frontend-build.git
+  git clone https://github.com/TheRealMarcusChiu/quicktionary-frontend-build.git
 EOF
