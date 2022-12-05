@@ -37,7 +37,7 @@ export class GameComponent {
       (room: Room) => this.updateRoomState(room)
     );
 
-    const ws = new SockJS(environment.backendUrl);
+    const ws = new SockJS(environment.backendUrl + '/ws');
     const stompClient = Stomp.over(ws);
     const that = this;
 

@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 
 import { Room } from '../model/room';
 import { Response } from './model/response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
 
-  private url = 'http://localhost:8080';
+  private url = environment.backendUrl;
 
   constructor(private http: HttpClient) { }
 
