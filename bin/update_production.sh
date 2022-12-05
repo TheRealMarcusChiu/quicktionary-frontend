@@ -5,7 +5,7 @@
 
 rm -rf dist/
 git push origin master
-ng build --env=prod
+ng build --configuration production
 cd dist
 git init
 git add .
