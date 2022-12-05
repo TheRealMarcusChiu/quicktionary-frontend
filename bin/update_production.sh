@@ -6,7 +6,7 @@
 rm -rf dist/
 git push origin master
 ng build --configuration production
-cd dist
+cd dist/quicktionary
 git init
 git add .
 git commit -am "initial commit"
