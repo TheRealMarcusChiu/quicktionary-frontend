@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendUrl: 'http://localhost:8080/ws'
+  backendUrl: 'http://quicktionary-backend.marcuschiu.com/ws'
 };
