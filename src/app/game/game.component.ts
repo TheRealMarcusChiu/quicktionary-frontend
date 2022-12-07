@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -19,7 +19,7 @@ declare var Stomp: any;
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent {
+export class GameComponent implements OnInit {
 
   participantName: string;
 
@@ -35,6 +35,9 @@ export class GameComponent {
               private dialog: MatDialog,
               private snackBar: MatSnackBar) {
     this.participantName = this.stateService.getParticipantName();
+  }
+
+  ngOnInit() {
     this.httpService.getRoom().subscribe(
       (room: Room) => this.updateRoomState(room)
     );
