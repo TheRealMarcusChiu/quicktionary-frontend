@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Participant } from '../model/participant';
 import { Room } from '../model/room';
@@ -31,7 +32,8 @@ export class GameComponent {
   constructor(private webSocketService: WebSocketService,
               private httpService: HttpService,
               private stateService: StateService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private snackBar: MatSnackBar) {
     this.participantName = this.stateService.getParticipantName();
     this.httpService.getRoom().subscribe(
       (room: Room) => this.updateRoomState(room)
@@ -45,8 +47,13 @@ export class GameComponent {
       stompClient.subscribe('/topic/room-updated', (message: any) => {
         const room: Room = JSON.parse(message.body) as Room;
         that.updateRoomState(room);
+        that.openSnackBar(room.updateMessage, 'ok');
       });
     });
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action);
   }
 
   updateRoomState(room: Room) {

@@ -6,4 +6,6 @@ export interface Room {
   activeYellowCardContent: string;
   activeBlueCardContent: string;
   activeRedCardContent: string;
+
+  updateMessage: string;
 }
