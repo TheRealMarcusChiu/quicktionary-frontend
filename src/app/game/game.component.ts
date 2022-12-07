@@ -53,6 +53,7 @@ export class GameComponent {
   }
 
   openSnackBar(message: string, action: string) {
+    console.log(message);
     this.snackBar.open(message, action);
   }
 
