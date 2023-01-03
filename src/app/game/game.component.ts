@@ -83,6 +83,18 @@ export class GameComponent implements OnInit {
     });
   }
 
+  clearCurrentCards() {
+    this.httpService.clearCurrentCards(this.participantName).subscribe(
+      response => {
+        if (response.success) {
+        } else {
+          alert(response.errorMessage);
+        }
+      },
+      error => alert('CRITICAL ERROR!!!')
+    );
+  }
+
   acquireCard(cardColor: string) {
     this.httpService.acquireCard(this.participantName, cardColor).subscribe(
       response => {

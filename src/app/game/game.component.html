@@ -1,10 +1,11 @@
 <div class="viewport">
-  <div class="top">
+  <div class="card-area">
     <app-card (click)="openDialog('yellow')" borderColor="#F5BB00" [content]="activeYellowCardContent"></app-card>
     <app-card (click)="openDialog('blue')" borderColor="blue" [content]="activeBlueCardContent"></app-card>
     <app-card (click)="openDialog('red')" borderColor="red" [content]="activeRedCardContent"></app-card>
   </div>
   <div class="bottom">
+    <button mat-raised-button color="primary" (click)="clearCurrentCards()">CLEAR CARDS</button>
     <div *ngFor="let p of participants">
       <app-participant [name]="p.name" [numCardsAcquired]=p.numCardsAcquired></app-participant>
     </div>

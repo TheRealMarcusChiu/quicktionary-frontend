@@ -15,6 +15,10 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
+  clearCurrentCards(participantName: string): Observable<Response> {
+    return this.http.post<Response>(this.url + '/api/participant/' + encodeURIComponent(participantName) + '/clear-current-cards', {});
+  }
+
   joinRoom(participantName: string): Observable<Response> {
     return this.http.post<Response>(this.url + '/api/add/participant/' + encodeURIComponent(participantName), {});
   }

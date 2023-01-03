@@ -10,7 +10,7 @@
   background-color: #F5F5F5;
 }
 
-.top {
+.card-area {
   display: flex;
   flex-direction: row;
   align-items: center;
